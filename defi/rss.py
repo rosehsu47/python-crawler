@@ -1,3 +1,12 @@
+import re
+# as per recommendation from @freylis, compile once only
+CLEANR = re.compile('<.*?>') 
+
+def cleanhtml(raw_html):
+  cleantext = re.sub(CLEANR, '', raw_html)
+  return cleantext
+
+
 
 import xml.etree.ElementTree as ET
 
@@ -37,18 +46,14 @@ for source in source_list:
     print(entry.title)
     print(entry.link)
 
-    s = entry.description
-    # description
-    # print(s.replace('&nbsp;','').replace('&#039;','')) # code 4
-    # print(s.split('<br />')[0].replace('&nbsp;','').replace('&#039;','')) # code 4
-    # print(s.split('<br />')[1].replace('&nbsp;','').replace('&#039;',''))  # code 5 
-   
-    print(entry.description)
+  
+    # print(cleanhtml(entry.description))
     # print(entry.published_parsed)
 
+    # print(entry.description)
+    
+    import bs4
+    root=bs4.BeautifulSoup(entry.description,"html.parser")
+    print(root.get_text())
 
-    # data = entry.description
-    # import bs4
-    # root=bs4.BeautifulSoup(data,"html.parser")
-
-    # print(root.p.string) 
+    # print(root.get_text(strip=False)) 
