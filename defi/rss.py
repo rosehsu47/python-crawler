@@ -36,6 +36,12 @@ import feedparser
 
 print("source_list: ", len(source_list))
 
+import csv
+data = ["category", "rss_title", "rss_url", "content"] 
+with open('data.csv', 'w') as file:
+    writer = csv.writer(file)
+    writer.writerow(data)
+
 for source in source_list:
   # print(feedparser.parse("https://nakamoto.com/rss/").keys())
 
@@ -57,3 +63,8 @@ for source in source_list:
     print(root.get_text())
 
     # print(root.get_text(strip=False)) 
+
+    data = [source["category"], source["rss_title"],source["rss_url"], root.get_text()]
+    with open('data.csv', 'a') as file:
+        writer = csv.writer(file)
+        writer.writerow(data)
